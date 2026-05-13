@@ -71,26 +71,50 @@ The companion `prompt.md` turns the entire checklist into a structured scan you 
 
 `prompt.md` instructs an AI model to scan a codebase for all 258 items and return a formatted report with file paths, line numbers, code snippets, and specific remediations.
 
-**Option 1: Claude Code (recommended)**
+Run this against codebases you own or have authorization to audit.
+
+### AI CLI tools
+
+All of these run from inside your project directory and read your local codebase directly. No file upload needed.
+
+**Claude Code**
 
 ```bash
-# No clone needed - runs directly from GitHub
 claude "$(curl -s https://raw.githubusercontent.com/a-leks/genai-app-security-checklist/main/prompt.md)"
-
-# Or if you have cloned the repo
-claude "$(cat /path/to/prompt.md)"
 ```
 
-Run this against codebases you own or have authorization to audit. Claude Code reads your codebase, runs every check, and outputs a findings report.
+Install: [claude.ai/code](https://claude.ai/code)
 
-**Option 2: Claude.ai, ChatGPT, or any web UI**
+**Gemini CLI**
+
+```bash
+gemini "$(curl -s https://raw.githubusercontent.com/a-leks/genai-app-security-checklist/main/prompt.md)"
+```
+
+Install: `npm install -g @google/gemini-cli`
+
+**OpenAI Codex CLI**
+
+```bash
+codex "$(curl -s https://raw.githubusercontent.com/a-leks/genai-app-security-checklist/main/prompt.md)"
+```
+
+Install: `npm install -g @openai/codex`
+
+---
+
+### Web UI (Claude.ai, ChatGPT, Gemini, Grok)
 
 1. Open the model's file upload or code context feature
 2. Paste the contents of `prompt.md` as your message
-3. Upload or paste your source files into the same context window
+3. Upload your source files or paste the relevant code into the same context window
 4. The model produces a structured report
 
-**Option 3: CI / pre-commit hook**
+For large codebases, Claude.ai Projects and ChatGPT Projects let you attach entire repos as context so you do not need to paste file by file.
+
+---
+
+### CI / pre-commit hook
 
 Wrap the prompt in a script that passes your changed files to the AI API. See [CONTRIBUTING.md](CONTRIBUTING.md) for a reference integration pattern.
 
